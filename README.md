@@ -1,13 +1,8 @@
-# YelpCamp
-
-[![Known Vulnerabilities](https://snyk.io/test/github/lucasweng/yelp-camp/badge.svg)](https://snyk.io/test/github/lucasweng/yelp-camp)
-[![NSP Status](https://nodesecurity.io/orgs/webdevprojects/projects/e3247e54-2256-44ff-9c8a-e4e087bd49fa/badge)](https://nodesecurity.io/orgs/webdevprojects/projects/e3247e54-2256-44ff-9c8a-e4e087bd49fa)
-
-> A Node.js web application project from the Udemy course - [The Web Developer Bootcamp by Colt Steele](https://www.udemy.com/the-web-developer-bootcamp/)
+# Hostel Management System
 
 ## Live Demo
 
-To see the app in action, go to [https://yelpcamp--demo.herokuapp.com/](https://yelpcamp--demo.herokuapp.com/)
+To see the app in action, go to [https://yelpcamp--demo.herokuapp.com/](https://hostel-manage.herokuapp.com/)
 
 ## Features
 
@@ -15,31 +10,16 @@ To see the app in action, go to [https://yelpcamp--demo.herokuapp.com/](https://
   
   * User login with username and password
 
-  * Admin sign-up with admin code
-
 * Authorization:
 
   * One cannot manage posts and view user profile without being authenticated
 
-  * One cannot edit or delete posts and comments created by other users
+* Manage details with basic functionalities:
 
-  * Admin can manage all posts and comments
-
-* Manage campground posts with basic functionalities:
-
-  * Create, edit and delete posts and comments
-
-  * Upload campground photos
-
-  * Display campground location on Google Maps
+  * Create, edit and delete Students and rooms
   
-  * Search existing campgrounds
+  * Manage Ingridients and daily consumptions by the admin 
 
-* Manage user account with basic functionalities:
-
-  * ~~Password reset via email confirmation~~ (disabled)
-
-  * Profile page setup with sign-up
 
 * Flash messages responding to users' interaction with the app
 
@@ -47,22 +27,19 @@ To see the app in action, go to [https://yelpcamp--demo.herokuapp.com/](https://
 
 ### Custom Enhancements
 
-* Update campground photos when editing campgrounds
+* Update Student,Room  details
 
-* Update personal information on profile page
-
-* Improve image load time on the landing page using Cloudinary
-
-* Use Helmet to strengthen security
  
 ## Getting Started
 
-> This app contains API secrets and passwords that have been hidden deliberately, so the app cannot be run with its features on your local machine. However, feel free to clone this repository if necessary.
-
+This app contains codes(admin,warden,chef) which are to be used at the registration
+Admin  8080
+Warden 7070
+Chef   9090
 ### Clone or download this repository
 
 ```sh
-git clone https://github.com/lucasweng/yelp-camp.git
+git clone https://github.com/saikiran402/Hostel-management.git
 ```
 
 ### Install dependencies
@@ -77,17 +54,13 @@ or
 yarn install
 ```
 
-### Comments in code
-
-Some comments in the source code are course notes and therefore might not seem necessary from a developer's point of view.
 
 ## Built with
 
 ### Front-end
 
 * [ejs](http://ejs.co/)
-* [Google Maps APIs](https://developers.google.com/maps/)
-* [Bootstrap](https://getbootstrap.com/docs/3.3/)
+* [Bootstrap](https://getbootstrap.com/docs/4.2/)
 
 ### Back-end
 
@@ -96,22 +69,16 @@ Some comments in the source code are course notes and therefore might not seem n
 * [mongoose](http://mongoosejs.com/)
 * [async](http://caolan.github.io/async/)
 * [crypto](https://nodejs.org/api/crypto.html#crypto_crypto)
-* [helmet](https://helmetjs.github.io/)
 * [passport](http://www.passportjs.org/)
 * [passport-local](https://github.com/jaredhanson/passport-local#passport-local)
 * [express-session](https://github.com/expressjs/session#express-session)
 * [method-override](https://github.com/expressjs/method-override#method-override)
-* [nodemailer](https://nodemailer.com/about/)
 * [moment](https://momentjs.com/)
-* [cloudinary](https://cloudinary.com/)
-* [geocoder](https://github.com/wyattdanger/geocoder#geocoder)
 * [connect-flash](https://github.com/jaredhanson/connect-flash#connect-flash)
 
 ### Platforms
-
-* [Cloudinary](https://cloudinary.com/)
 * [Heroku](https://www.heroku.com/)
-* [Cloud9](https://aws.amazon.com/cloud9/?origin=c9io)
+* [mlab](https://mlab.com/)
 ## License
 
 #### [MIT](./LICENSE)
