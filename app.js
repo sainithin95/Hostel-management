@@ -14,14 +14,12 @@ const express = require("express"),
 // requiring routes     
 const indexRoute = require("./routes/index");
 
-
+//this is used to run on local server ie., locsalhost:3000
 // let url = process.env.DATABASEURL || "mongodb://localhost/hostel";
 // mongoose.connect(url, { useNewUrlParser: true });
 
-// connect to the DB
+// connect to the DB on mlab
 const databaseUri = 'mongodb://abdul:wasey1@ds149914.mlab.com:49914/hostel';
-
-
 mongoose.connect(databaseUri,{ useNewUrlParser: true })
       .then(() => console.log(`Database connected`))
       .catch(err => console.log(`Database connection error: ${err.message}`));

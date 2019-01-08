@@ -57,7 +57,7 @@
                             </a>
                             <% } else { %>
                             <% if (currentUser.isAdmin) { %>
-                            <a class="text-white" href="/users/<%= currentUser._id %>">
+                            <a class="text-white" href="#<%= currentUser._id %>">
                                 <li>Admin.
                                     <%= currentUser.username %>
                                 </li>
@@ -66,7 +66,7 @@
                             <a class="text-white" href="/">
                                 <li class="<%= typeof page !== 'undefined' && page === 'home' ? 'active' : '' %> ">Dashboard</li>
                             </a>
-                            <a class="text-white" href="/users/<%= currentUser._id %>">
+                            <a class="text-white" href="#<%= currentUser._id %>">
                                 <li>Hi,
                                     <%= currentUser.username %>
                                 </li>

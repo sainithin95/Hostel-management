@@ -126,8 +126,18 @@ router.post("/register", (req, res) => {
         email: req.body.email
     });
 
-    if (req.body.adminCode === 8080) {
+    if (req.body.adminCode == 8080) {
         newUser.isAdmin = true;
+    }
+    else if (req.body.adminCode == 9090) {
+        newUser.isChef = true;
+    }
+     else if (req.body.adminCode ==  7070) {
+        newUser.isWarden = true;
+    }
+    else{
+        req.flash("error","Entered Wrong code contact Administrator");
+            return res.redirect("/register");
     }
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
@@ -142,7 +152,7 @@ router.post("/register", (req, res) => {
         }
 
         passport.authenticate("local")(req, res, () => {
-            req.flash("success", "Welcome to Dhikr " + user.username);
+            req.flash("success", "Welcome  " + user.username);
             res.redirect("/");
         });
     });
