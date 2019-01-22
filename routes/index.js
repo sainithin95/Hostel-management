@@ -107,7 +107,7 @@ router.post("/feedback", (req, res) => {
 });
 
 
-router.get('/feedbacklist',middleware.isLoggedIn, (req, res) => {
+router.get('/feedbacklist', middleware.isLoggedIn, (req, res) => {
     Feedback.find({}, function (err, list) {
         if (err) {
             console.log(err);
@@ -132,12 +132,12 @@ router.post("/register", (req, res) => {
     else if (req.body.adminCode == 9090) {
         newUser.isChef = true;
     }
-     else if (req.body.adminCode ==  7070) {
+    else if (req.body.adminCode == 7070) {
         newUser.isWarden = true;
     }
-    else{
-        req.flash("error","Entered Wrong code contact Administrator");
-            return res.redirect("/register");
+    else {
+        req.flash("error", "Entered Wrong code contact Administrator");
+        return res.redirect("/register");
     }
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
@@ -202,7 +202,7 @@ router.get('/attendance', middleware.isLoggedIn, (req, res) => {
 
 router.post("/attendance", middleware.isLoggedIn, (req, res) => {
 
-   
+
     var available = req.body.a;
     var name = req.body.name;
     var room = req.body.room;
@@ -210,14 +210,14 @@ router.post("/attendance", middleware.isLoggedIn, (req, res) => {
         id: req.user._id,
         username: req.user.username
     }
-    var newItem = { name:name ,room: room, available:available, author:author }
+    var newItem = { name: name, room: room, available: available, author: author }
     Attendance.create(newItem, function (err, newlyCreated) {
         if (err) {
             console.log(err);
         } else {
             req.flash("success Posted");
             res.redirect("/attendance");
-           
+
         }
     })
 });
@@ -255,7 +255,7 @@ router.post("/addstudent", middleware.isLoggedIn, (req, res) => {
     var phone = req.body.phone;
     var room = req.body.room;
     var roll = req.body.roll;
-    
+
     var newItem = { name: name, email: email, phone: phone, room: room, roll: roll }
     Student.create(newItem, function (err, newlyCreated) {
         if (err) {
@@ -278,15 +278,15 @@ router.get('/showstudent', middleware.isLoggedIn, (req, res) => {
     });
 });
 
-router.get("/addroom",middleware.isLoggedIn, (req, res) => res.render("addroom"));
+router.get("/addroom", middleware.isLoggedIn, (req, res) => res.render("addroom"));
 
 router.post("/addroom", middleware.isLoggedIn, (req, res) => {
 
     var room = req.body.roomn;
     var ac = req.body.ac;
-    
-    
-    var newItem = { ac: ac, room: room}
+
+
+    var newItem = { ac: ac, room: room }
     Room.create(newItem, function (err, newlyCreated) {
         if (err) {
             console.log(err);
@@ -308,27 +308,11 @@ router.get('/showrooms', middleware.isLoggedIn, (req, res) => {
 });
 
 
-router.get("/post",middleware.isLoggedIn, (req, res) => res.render("post"));
-
-// router.post("/post", middleware.isLoggedIn, (req, res) => {
-
-//     var name = req.body.post;
-    
-//     var newItem = { name: name, email: email, phone: phone, room: room, roll: roll }
-//     Student.create(newItem, function (err, newlyCreated) {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             req.flash("success", newItem.name + " is successfully added");
-//             res.redirect("/");
-//         }
-//     })
-// });
-
+router.get("/post", middleware.isLoggedIn, (req, res) => res.render("post"));
 
 router.post('/post', middleware.isLoggedIn, (req, res) => {
-    
-    Student.find({ room : req.body.room } , function (err, list) {
+
+    Student.find({ room: req.body.room }, function (err, list) {
         if (err) {
             console.log(err);
         } else {
@@ -336,8 +320,6 @@ router.post('/post', middleware.isLoggedIn, (req, res) => {
         }
     });
 });
-
-
 
 
 module.exports = router;

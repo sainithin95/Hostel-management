@@ -33,9 +33,9 @@ To see the app in action, go to [https://hostel-manage.herokuapp.com/](https://h
 ## Getting Started
 
 This app contains codes(admin,warden,chef) which are to be used at the registration
-Admin  8080
-Warden 7070
-Chef   9090
+* Admin  8080
+* Warden 7070
+* Chef   9090
 ### Clone or download this repository
 
 ```sh

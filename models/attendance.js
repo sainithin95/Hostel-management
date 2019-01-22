@@ -1,39 +1,19 @@
 const mongoose = require("mongoose");
 
-// const AttendanceSchema = new mongoose.Schema({
-//     date:{type:Date,default:Date.now},
-//     attendance:[{
-//         id: {
-//             type: mongoose.Schema.Types.ObjectId,
-//             ref: "Student"
-
-//         },
-//         available:{type:Boolean,default:true}}]
-//         author: {
-//             id: {
-//                 type: mongoose.Schema.Types.ObjectId,
-//                 ref: "User"
-
-//             },
-//             username: String
-//         },
-//     });
-
-
 const AttendanceSchema = new mongoose.Schema({
-    date:{type:Date,default:Date.now},
-        available:{type:Boolean,default:true},
-        name: String,
-        room:String,
-        author: {
-            id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User"
+    date: { type: Date, default: Date.now },
+    available: { type: Boolean, default: true },
+    name: String,
+    room: String,
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
 
-            },
-            username: String
         },
-    });
+        username: String
+    },
+});
 
 
 

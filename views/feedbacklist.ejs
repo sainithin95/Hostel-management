@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
-    
-
 
 <table class="table">
     <thead class="thead-light">
@@ -27,14 +25,11 @@
     <tbody>
             <% var i=1;list.forEach(list => {%>
       <tr>
-          <form>
         <th scope="row"><%=i++%></th>
         <td><%=list.names%></td>
         <td><%=list.Phone%></td>
         <td><%=list.email%></td>
-        <td><%=list.feedback%></td>
-      
-       
+        <td><%=list.feedback%></td> 
       </tr>
       <% })%>
       
