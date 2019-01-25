@@ -61,7 +61,7 @@ yarn install
 ```
 
 
-### Install dependencies
+### Run your Application
 
 ```sh
 node app.js
