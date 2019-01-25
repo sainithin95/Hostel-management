@@ -183,6 +183,15 @@ router.post("/login", (req, res, next) => {
     })(req, res, next);
 });
 
+
+
+
+
+
+
+
+
+
 // logout route
 router.get("/logout", (req, res) => {
     req.logout();
@@ -397,8 +406,30 @@ Gate.findByIdAndUpdate(req.params.id).exec(function(err,list){
 });
 
 
+// security pass verification
+
+router.get('/gatecheck', middleware.isLoggedIn, (req, res) => {
+    Gate.find({}, function (err, list) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("gatecheck", { list: list });
+        }
+    });
+});
 
 
+
+router.delete("/:id/gatecheck", middleware.isLoggedIn, function (req, res) {
+    Gate.findByIdAndRemove(req.params.id, function (err) {
+        if (err) {
+            console.log(err);
+            res.redirect("/gatecheck");
+        } else {
+            res.redirect("/gatecheck");
+        }
+    });
+});
 
 
 
