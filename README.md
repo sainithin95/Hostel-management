@@ -61,6 +61,12 @@ yarn install
 ```
 
 
+### Install dependencies
+
+```sh
+node app.js
+```
+
 ## Built with
 
 ### Front-end
