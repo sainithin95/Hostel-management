@@ -6,10 +6,10 @@ const express = require("express"),
     Student = require("../models/student"),
     Feedback = require("../models/feedback"),
     Attendance = require("../models/attendance"),
-    Rooms = require("../models/room"),
     Room = require("../models/room"),
-    Gate = require("../models/gatepass"),
-    middleware = require("../middleware");
+    middleware = require("../middleware"),
+    Gate = require("../models/gatepass");
+var mongoose = require("mongoose");
 // root route
 router.get('/', (req, res) => res.render("home"));
 
@@ -26,8 +26,6 @@ router.get('/list', middleware.isLoggedIn, (req, res) => {
 
 
 router.get("/add", middleware.isLoggedIn, (req, res) => res.render("add"));
-
-
 // handle sign up logic
 router.post("/add", middleware.isLoggedIn, (req, res) => {
 
@@ -183,15 +181,6 @@ router.post("/login", (req, res, next) => {
     })(req, res, next);
 });
 
-
-
-
-
-
-
-
-
-
 // logout route
 router.get("/logout", (req, res) => {
     req.logout();
@@ -199,18 +188,167 @@ router.get("/logout", (req, res) => {
     res.redirect("/");
 });
 
+router.get("/addroom", middleware.isLoggedIn, (req, res) => res.render("addRoom"));
+
+router.post("/addroom", middleware.isLoggedIn, (req, res) => {
+
+    var room = req.body.roomn;
+    var ac = req.body.ac;
+    var limit = req.body.limit;
+
+    var newRoom = { ac: ac, room: room, limit: limit }
+    Room.create(newRoom, function (err, newlyCreated) {
+        if (err) {
+            console.log(err);
+        } else {
+            req.flash("success", newRoom.room + " is successfully added");
+            res.redirect("/addroom");
+        }
+    })
+});
+
+router.get('/addstudent', middleware.isLoggedIn, (req, res) => {
+    Room.find({}, function (err, list) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("addStudent", { list: list });
+        }
+    });
+});
+
+router.post("/addstudent", middleware.isLoggedIn, (req, res) => {
+
+    var name = req.body.name;
+    var email = req.body.email;
+    var phone = req.body.phone;
+    var room = req.body.room;
+    var roll = req.body.roll;
+
+    var newStudent = { username: name, name: name, email: email, phone: phone, room: room, roll: roll }
+    Student.create(newStudent, function (err, newlyCreated) {
+        if (err) {
+            console.log(err);
+        } else {
+            req.flash("success", newStudent.name + " is successfully added");
+            Room.findByIdAndUpdate(req.body.room).exec(function (err, list) {
+                if (err) { console.log(err); }
+                else {
+                    console.log(list);
+                    list.student.push(name);
+                    console.log(list);
+                    list.save();
+                    res.redirect("/addstudent");
+                }
+            })
+        }
+    })
+});
+
+
+
+router.get("/gatepass", middleware.isLoggedIn, (req, res) => res.render("gatepass"));
+
+
+router.post("/request", middleware.isLoggedIn, (req, res) => {
+
+    var names = req.user.name;
+    var Reason = req.body.texts;
+    var newItem = { names: names, Reason: Reason }
+    Gate.create(newItem, function (err, newlyCreated) {
+        if (err) {
+            console.log(err);
+        } else {
+            req.flash("success", " Request successfully submitted, you will soon receive a mail regarding the status");
+            res.redirect("/");
+        }
+    })
+});
+
+
+
+router.get("/approve", middleware.isLoggedIn, (req, res) => {
+
+    Gate.find({}, function (err, list) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("approve", { list: list });
+        }
+    });
+});
+
+
+router.post("/:id/accept", middleware.isLoggedIn, function (req, res) {
+    Gate.findByIdAndUpdate(req.params.id).exec(function (err, list) {
+        if (err) {
+            console.log(err);
+        } else {
+            list.Permission = 'true';
+            list.Status = 'true';
+            list.save();
+            res.redirect("/approve");
+
+        }
+    })
+});
+
+
+
+router.post("/:id/reject", middleware.isLoggedIn, function (req, res) {
+    Gate.findByIdAndUpdate(req.params.id).exec(function (err, list) {
+        if (err) {
+            console.log(err);
+        } else {
+            
+            list.Permission = 'false';
+            list.Status = 'true';
+            list.save();
+            res.redirect("/approve");
+
+        }
+    })
+});
+
+
+// security pass verification
+
+router.get('/gatecheck', middleware.isLoggedIn, (req, res) => {
+    Gate.find({}, function (err, list) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("gatecheck", { list: list });
+        }
+    });
+});
+
+
+
+router.delete("/:id/gatecheck", middleware.isLoggedIn, function (req, res) {
+    Gate.findByIdAndRemove(req.params.id, function (err) {
+        if (err) {
+            console.log(err);
+            res.redirect("/gatecheck");
+        } else {
+            res.redirect("/gatecheck");
+        }
+    });
+});
 
 
 
 router.get('/attendance', middleware.isLoggedIn, (req, res) => {
-    Rooms.find({}, function (err, list) {
+    Room.find({}, function (err, list) {
         if (err) {
             console.log(err);
         } else {
-            res.render("attendance", { list: list });
+            res.render("addAttendance", { list: list });
         }
     });
 });
+
+
 
 router.post("/attendance", middleware.isLoggedIn, (req, res) => {
 
@@ -247,40 +385,6 @@ router.get('/absent', middleware.isLoggedIn, (req, res) => {
 
 
 
-router.get('/addstudent', middleware.isLoggedIn, (req, res) => {
-    Rooms.find({}, function (err, list) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("StudentRegister", { list: list });
-        }
-    });
-});
-
-
-
-
-router.post("/addstudent", middleware.isLoggedIn, (req, res) => {
-
-    var name = req.body.name;
-    var email = req.body.email;
-    var phone = req.body.phone;
-    var room = req.body.room;
-    var roll = req.body.roll;
-    var parent=req.body.parent_number;
-
-    var newItem = { name: name, email: email, phone: phone, room: room, roll: roll,parent_number:parent}
-    Student.create(newItem, function (err, newlyCreated) {
-        if (err) {
-            console.log(err);
-        } else {
-            req.flash("success", newItem.name + " is successfully added");
-            res.redirect("/");
-        }
-    })
-});
-
-
 router.get('/showstudent', middleware.isLoggedIn, (req, res) => {
     Student.find({}, function (err, list) {
         if (err) {
@@ -291,24 +395,6 @@ router.get('/showstudent', middleware.isLoggedIn, (req, res) => {
     });
 });
 
-router.get("/addroom", middleware.isLoggedIn, (req, res) => res.render("addroom"));
-
-router.post("/addroom", middleware.isLoggedIn, (req, res) => {
-
-    var room = req.body.roomn;
-    var ac = req.body.ac;
-
-
-    var newItem = { ac: ac, room: room }
-    Room.create(newItem, function (err, newlyCreated) {
-        if (err) {
-            console.log(err);
-        } else {
-            req.flash("success", newItem.room + " is successfully added");
-            res.redirect("/");
-        }
-    })
-});
 
 router.get('/showrooms', middleware.isLoggedIn, (req, res) => {
     Room.find({}, function (err, list) {
@@ -333,106 +419,6 @@ router.post('/post', middleware.isLoggedIn, (req, res) => {
         }
     });
 });
-
-
-
-
-
-
-
-
-router.get("/gatepass", middleware.isLoggedIn, (req, res) => res.render("gatepass"));
-
-
-router.post("/request", middleware.isLoggedIn, (req, res) => {
-
-    var names = req.user.name;
-    var Reason = req.body.texts;
-    var newItem = { names: names, Reason: Reason}
-    Gate.create(newItem, function (err, newlyCreated) {
-        if (err) {
-            console.log(err);
-        } else {
-            req.flash("success", " Request successfully submitted, you will soon receive a mail regarding the status");
-            res.redirect("/");
-        }
-    })
-});
-
-
-
-router.get("/approve", middleware.isLoggedIn, (req, res) => {
-
-    Gate.find({}, function (err, list) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("approve", { list: list });
-        }
-    });
-});
-
-
-router.post("/:id/accept", middleware.isLoggedIn,  function (req, res) {
-Gate.findByIdAndUpdate(req.params.id).exec(function(err,list){
-    if (err) {
-            console.log(err);
-        } else {
-            console.log(list);
-                list.Permission= 'True' ;
-                list.Status= 'True' ;
-                list.save();
-                 res.redirect("/approve");
-
-        }
-})
-});
-
-
-
-router.post("/:id/reject", middleware.isLoggedIn,  function (req, res) {
-Gate.findByIdAndUpdate(req.params.id).exec(function(err,list){
-    if (err) {
-            console.log(err);
-        } else {
-            console.log(list);
-                list.Permission= 'False' ;
-                list.Status= 'True' ;
-                list.save();
-                 res.redirect("/approve");
-
-        }
-})
-});
-
-
-// security pass verification
-
-router.get('/gatecheck', middleware.isLoggedIn, (req, res) => {
-    Gate.find({}, function (err, list) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("gatecheck", { list: list });
-        }
-    });
-});
-
-
-
-router.delete("/:id/gatecheck", middleware.isLoggedIn, function (req, res) {
-    Gate.findByIdAndRemove(req.params.id, function (err) {
-        if (err) {
-            console.log(err);
-            res.redirect("/gatecheck");
-        } else {
-            res.redirect("/gatecheck");
-        }
-    });
-});
-
-
-
 
 
 module.exports = router;

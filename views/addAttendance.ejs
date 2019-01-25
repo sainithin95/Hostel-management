@@ -1,0 +1,46 @@
+<% include partials/header %>
+
+
+<link href="https://getbootstrap.com/docs/4.2/examples/album/album.css" rel="stylesheet">
+</head>
+<div class="album py-5 bg-light">
+    <div class="container">
+
+        <div class="row">
+            <%list.forEach(list =>{%>
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <%=list.room%>
+                        </h5>
+                        <%for(let i =0;i < list.student.length;i++){%>
+                        <div class="card" style="width: 18rem;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <%=list.student[i]%>
+                                    <input type="checkbox"  style="float: right" checked>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <%}%>
+                        <br>
+                        <button type="submit" class="btn btn-success">POST</button>
+                    </div>
+                </div>
+            </div>
+            <%})%>
+        </div>
+    </div>
+</div>
+<nav class="navbar fixed-bottom navbar-light bg-light">
+    <a class="navbar-item btn btn-success" href="/post">Post</a>
+</nav>
+</main>
+
+
+
+
+<% include partials/footer %>

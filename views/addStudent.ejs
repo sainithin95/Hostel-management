@@ -74,7 +74,7 @@
             </div>
             <div class="row">
                 <div class="col-md-3 field-label-responsive">
-                    <label for="email">Room</label>
+                    <label for="room">Room</label>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -85,7 +85,7 @@
                                 <% var i=1;list.forEach(list => {%>
 
                                 <%=i++%>
-                                <option value="<%=list.room%>">
+                                <option value="<%=list._id%>">
                                     <%=list.room%>
                                 </option>
                                 <% })%>

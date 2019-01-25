@@ -28,10 +28,6 @@ To see the app in action, go to [https://hostel-manage.herokuapp.com/](https://h
 ### Custom Enhancements
 
 * Update Student,Room  details
-* To create a new module like kitchen 
-  * Add schema ( creation af a database) with required columns in models/schemaname.js.
-  * Add get and post method in routes/index.js
-  * Create a ejs file for the I/O operations.
 
  
 ## Getting Started
@@ -46,8 +42,6 @@ This app contains codes(admin,warden,chef) which are to be used at the registrat
 git clone https://github.com/saikiran402/Hostel-management.git
 ```
 
-
-
 ### Install dependencies
 
 ```sh
@@ -60,12 +54,6 @@ or
 yarn install
 ```
 
-
-### Run your Application
-
-```sh
-node app.js
-```
 
 ## Built with
 
