@@ -8,6 +8,7 @@ const express = require("express"),
     Attendance = require("../models/attendance"),
     Rooms = require("../models/room"),
     Room = require("../models/room"),
+    Gate = require("../models/gatepass"),
     middleware = require("../middleware");
 // root route
 router.get('/', (req, res) => res.render("home"));
@@ -25,6 +26,8 @@ router.get('/list', middleware.isLoggedIn, (req, res) => {
 
 
 router.get("/add", middleware.isLoggedIn, (req, res) => res.render("add"));
+
+
 // handle sign up logic
 router.post("/add", middleware.isLoggedIn, (req, res) => {
 
@@ -255,8 +258,9 @@ router.post("/addstudent", middleware.isLoggedIn, (req, res) => {
     var phone = req.body.phone;
     var room = req.body.room;
     var roll = req.body.roll;
+    var parent=req.body.parent_number;
 
-    var newItem = { name: name, email: email, phone: phone, room: room, roll: roll }
+    var newItem = { name: name, email: email, phone: phone, room: room, roll: roll,parent_number:parent}
     Student.create(newItem, function (err, newlyCreated) {
         if (err) {
             console.log(err);
@@ -320,6 +324,84 @@ router.post('/post', middleware.isLoggedIn, (req, res) => {
         }
     });
 });
+
+
+
+
+
+
+
+
+router.get("/gatepass", middleware.isLoggedIn, (req, res) => res.render("gatepass"));
+
+
+router.post("/request", middleware.isLoggedIn, (req, res) => {
+
+    var names = req.user.name;
+    var Reason = req.body.texts;
+    var newItem = { names: names, Reason: Reason}
+    Gate.create(newItem, function (err, newlyCreated) {
+        if (err) {
+            console.log(err);
+        } else {
+            req.flash("success", " Request successfully submitted, you will soon receive a mail regarding the status");
+            res.redirect("/");
+        }
+    })
+});
+
+
+
+router.get("/approve", middleware.isLoggedIn, (req, res) => {
+
+    Gate.find({}, function (err, list) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("approve", { list: list });
+        }
+    });
+});
+
+
+router.post("/:id/accept", middleware.isLoggedIn,  function (req, res) {
+Gate.findByIdAndUpdate(req.params.id).exec(function(err,list){
+    if (err) {
+            console.log(err);
+        } else {
+            console.log(list);
+                list.Permission= 'True' ;
+                list.Status= 'True' ;
+                list.save();
+                 res.redirect("/approve");
+
+        }
+})
+});
+
+
+
+router.post("/:id/reject", middleware.isLoggedIn,  function (req, res) {
+Gate.findByIdAndUpdate(req.params.id).exec(function(err,list){
+    if (err) {
+            console.log(err);
+        } else {
+            console.log(list);
+                list.Permission= 'False' ;
+                list.Status= 'True' ;
+                list.save();
+                 res.redirect("/approve");
+
+        }
+})
+});
+
+
+
+
+
+
+
 
 
 module.exports = router;

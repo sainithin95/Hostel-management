@@ -15,14 +15,14 @@ const express = require("express"),
 const indexRoute = require("./routes/index");
 
 //this is used to run on local server ie., locsalhost:3000
-// let url = process.env.DATABASEURL || "mongodb://localhost/hostel";
-// mongoose.connect(url, { useNewUrlParser: true });
+let url = process.env.DATABASEURL || "mongodb://localhost/hostel";
+mongoose.connect(url, { useNewUrlParser: true });
 
 // connect to the DB on mlab
-const databaseUri = 'mongodb://abdul:wasey1@ds149914.mlab.com:49914/hostel';
-mongoose.connect(databaseUri,{ useNewUrlParser: true })
-      .then(() => console.log(`Database connected`))
-      .catch(err => console.log(`Database connection error: ${err.message}`));
+// const databaseUri = 'mongodb://abdul:wasey1@ds149914.mlab.com:49914/hostel';
+// mongoose.connect(databaseUri,{ useNewUrlParser: true })
+//       .then(() => console.log(`Database connected`))
+//       .catch(err => console.log(`Database connection error: ${err.message}`));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -55,6 +55,6 @@ app.use((req, res, next) => {
 // use routes
 app.use("/", indexRoute);
 
-app.listen((process.env.PORT || 80), function () {
+app.listen((process.env.PORT || 3000), function () {
   console.log("The Server Has Started!");
 });
